@@ -38,18 +38,15 @@ while True:
         img1 = cv2.inRange(frame_rgb, lower_bound, upper_bound)
 
         # invertendo a máscara
-        lower_bound = np.array([170,170,170])
-        upper_bound = np.array([255,255,255])
-
-        img2 = cv2.inRange(frame_rgb, lower_bound, upper_bound)
+        img1 = cv2.bitwise_not(img1) 
 
         # bitwise_and - operação para extrair o primeiro plano / pessoa
-        cv2.bitwise_and(img1, img2)
+        person = cv2.bitwise_and(frame, frame , img1 = img1)
         # imagem final
-        final_image = np.where(img1 == 0, img1, img2)
+        final_image = np.where(person == 0 , mountain , person)
 
         # exiba-a
-        cv2.imshow('quadro' , frame)
+        cv2.imshow('quadro' , final_image)
 
         # espera de 1ms antes de exibir outro quadro
         code = cv2.waitKey(1)
